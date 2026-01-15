@@ -1,13 +1,12 @@
 {
     "name": "bcgov-theme/design-system-wordpress-child-theme-template",
     "description": "Design System Wordpress Child Theme Template",
-    "version": "1.0.0",
     "type": "wordpress-theme",
     "license": "Apache-2.0",
     "repositories": [
         {
             "type": "composer",
-            "url": "https://apps.itsm.gov.bc.ca/satis"
+            "url": "https://blog.gov.bc.ca/satis"
         }
     ],
     "require-dev": {
@@ -26,19 +25,16 @@
             "Bcgov\\Theme\\DesignSystem\\Tests\\": "Tests/"
         }
     },
-    "scripts": {
+"scripts": {
+        "test-setup":[ 
+            "bash vendor/bcgov/wordpress-utils/bin/install-wp-tests.sh wordpress_test root 'rootpassword' 0.0.0.0 latest"
+        ],
         "production": [
             "composer validate",
             "composer phpcbf",
             "composer phpcs",
             "npm run fix:js",
-            "npm run fix:css",
-            "npm run test",
-            "composer test"
-        ],
-        "checklist": [
-            "composer validate",
-            "Bcgov\\Script\\Checklists::postProductionChecks"
+            "npm run fix:css"
         ],
         "phpcs": [
             "Bcgov\\Script\\Standards::phpcs"
@@ -47,10 +43,13 @@
             "Bcgov\\Script\\Standards::phpcbf"
         ],
         "test": [
-            "Bcgov\\Script\\Tests::phpunit"
+            "vendor/bin/phpunit --testdox "
         ],
         "coverage": [
-            "./vendor/bin/phpunit --coverage-html ./coverage/php/"
+            "vendor/bin/phpunit --coverage-html ./coverage/php/"
+        ],
+        "phpcs-allow-todo": [
+            "vendor/bin/phpcs -ps --standard=./vendor/bcgov/wordpress-utils/wordpress.xml  --exclude=Generic.Commenting.Todo --colors --ignore=**/build/** ./"
         ]
     },
     "config": {
