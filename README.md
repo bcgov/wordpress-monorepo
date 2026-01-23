@@ -1,1 +1,1 @@
-# WordPress Monorepo (Pilot)
+# WordPress Monorepo
