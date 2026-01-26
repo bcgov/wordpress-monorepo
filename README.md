@@ -31,10 +31,10 @@ Move the entire repository history under the monorepo path. This rewrites all co
 git filter-repo --to-subdirectory-filter themes/example-theme
 ```
 
-#### Rename existing tags as legacy (Unknown if this will be part of the final process)
-
+#### Rename existing tags to avoid conflict
+TODO: Determine naming convention (default to theme/theme-slug)
 ```bash
-git filter-repo --tag-rename '':'legacy/'
+git filter-repo --tag-rename '':'themes/example-theme/'
 ```
 
 #### Merge the rewritten theme into the monorepo
