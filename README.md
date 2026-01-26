@@ -32,7 +32,7 @@ git filter-repo --to-subdirectory-filter themes/example-theme
 ```
 
 #### Rename existing tags to avoid conflict
-TODO: Determine naming convention (default to theme/theme-slug)
+> TODO: Determine naming convention (default to theme/theme-slug)
 ```bash
 git filter-repo --tag-rename '':'themes/example-theme/'
 ```
@@ -77,10 +77,31 @@ Or use `git blame` to confirm line history, authors and timestamps.
 git blame themes/example-theme/README.md
 ```
 
+#### Additional Branches
+Branches besides main can be added as historical references.
+> ⚠️ Do not merge release branches into monorepo main.
+
+Each release branch can be recreated as a namespaced branch:
+```bash
+git checkout -b themes/example-theme/release-1.1.0 example-theme/release/1.1.0
+git push origin themes/example-theme/release-1.1.0
+```
+
+##### Naming requirements
+* ⚠️ Raw branch names like release/1.1.0 are not allowed in the monorepo, in order to avoid conflics.
+* All legacy branches must be namespaced by theme or plugin:
+  * `themes/example-theme/release-x.x.x`
+  * `plugins/example-plugin/release-x.x.x`
+
 #### Cleanup
 ```bash
 git remote remove example-theme
 ```
 
-#### Workflows | Releases | CICD
-TODO: Add steps for adapting these.
+#### Workflows | CICD
+> TODO: Add steps for adapting these.
+
+##### Release Policy (Current Phase)
+This monorepo does not (currently) produce production releases.
+All official releases continue to be cut from their original repositories.
+Scoped tags and release branches in this monorepo are for historical reference and future planning only.
