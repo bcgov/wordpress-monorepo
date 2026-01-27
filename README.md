@@ -98,10 +98,16 @@ git push origin themes/example-theme/release-1.1.0
 git remote remove example-theme
 ```
 
-#### Workflows | CICD
+### Workflows | CICD
 > TODO: Add steps for adapting these.
 
-##### Release Policy (Current Phase)
+#### Release Policy (Current Phase)
 This monorepo does not (currently) produce production releases.
 All official releases continue to be cut from their original repositories.
 Scoped tags and release branches in this monorepo are for historical reference and future planning only.
+
+### Script Specifications
+All packages in this repository must implement the following npm scripts:
+- build
+- test
+- lint:js

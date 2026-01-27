@@ -1,0 +1,26 @@
+{
+  "name": "bcgov-wordpress-monorepo",
+  "description": "BC Government WordPress themes and plugins monorepo",
+  "author": "govwordpress@gov.bc.ca",
+  "license": "GPL-2.0-or-later",
+  "engines": {
+    "node": "^24.12.0"
+  },
+  "workspaces": [
+    "themes/*",
+    "plugins/*",
+    "plugins/*/*"
+  ],
+  "devDependencies": {
+    "@wordpress/scripts": "^31.2.0",
+    "@playwright/test": "^1.57.0",
+    "@bcgov/wordpress-eslint": "github:bcgov/wordpress-eslint#semver:1.x",
+    "@bcgov/wordpress-stylelintrc": "github:bcgov/wordpress-stylelintrc#semver:1.x",
+    "@babel/runtime": "^7.28.4"
+  },
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present",
+    "lint:js": "npm run lint:js --workspaces --if-present"
+  }
+}
