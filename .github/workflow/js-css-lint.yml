@@ -1,0 +1,100 @@
+name: Lint (plugins & themes)
+
+on:
+  pull_request:
+    # Only run this workflow if the PR touches plugins or themes
+    paths:
+      - 'plugins/**'
+      - 'themes/**'
+
+# Avoid duplicate runs on force-pushes
+concurrency:
+  group: pr-lint-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  detect-changed-projects:
+    name: Detect changed sub-projects
+    runs-on: ubuntu-latest
+    outputs:
+      projects: ${{ steps.compute.outputs.projects }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Compute changed projects (plugins/* or themes/*)
+        id: compute
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE="${{ github.event.pull_request.base.sha }}"
+          HEAD="${{ github.event.pull_request.head.sha }}"
+
+          # List changed files (exclude deletions)
+          git diff --name-only --diff-filter=d "$BASE" "$HEAD" \
+            | awk -F/ '/^(plugins|themes)\// {print $1 "/" $2}' \
+            | sort -u > changed_dirs.txt
+
+          if [[ ! -s changed_dirs.txt ]]; then
+            echo "No changed sub-projects under plugins/ or themes/."
+            echo "projects=[]" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          echo "Changed sub-projects:"
+          cat changed_dirs.txt
+
+          # Build a JSON array for the matrix
+          printf '[' > projects.json
+          first=1
+          while read -r d; do
+            [[ -z "$d" ]] && continue
+            if [[ $first -eq 0 ]]; then printf ',' >> projects.json; fi
+            printf '"%s"' "$d" >> projects.json
+            first=0
+          done < changed_dirs.txt
+          printf ']\n' >> projects.json
+
+          echo "projects=$(cat projects.json)" >> "$GITHUB_OUTPUT"
+
+  lint:
+    name: Lint ${{ matrix.project }}
+    needs: detect-changed-projects
+    if: ${{ needs.detect-changed-projects.outputs.projects != '' && needs.detect-changed-projects.outputs.projects != '[]' }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        project: ${{ fromJSON(needs.detect-changed-projects.outputs.projects) }}
+
+    defaults:
+      run:
+        working-directory: ${{ matrix.project }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+
+      - name: Install Node dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Run css lint
+        run: npm run lint:css
+
+      - name: Run js lint
+        run: npx run lint:js
