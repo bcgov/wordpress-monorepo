@@ -1,3 +1,10 @@
+monorepo:
+  - changed-files:
+    - any-glob-to-any-file:
+      - '**'
+      - '!plugins/**'
+      - '!themes/**'
+
 plugin:
   - changed-files:
     - any-glob-to-any-file: 'plugins/**'

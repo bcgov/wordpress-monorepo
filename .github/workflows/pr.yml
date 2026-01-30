@@ -12,6 +12,18 @@ permissions:
   contents: read
 
 jobs:
+  labeler:
+    name: Add labels
+    permissions:
+      contents: read
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+    
+    - uses: actions/labeler@v6
+      with:
+        sync-labels: true
+
   detect-changed-projects:
     name: Detect changed sub-projects
     runs-on: ubuntu-latest
@@ -50,17 +62,6 @@ jobs:
           echo "${changed_projects[*]}"
 
           echo "projects=$(jq --compact-output --null-input '$ARGS.positional' --args -- "${changed_projects[@]}")" >> "$GITHUB_OUTPUT"
-
-  labeler:
-    permissions:
-      contents: read
-      pull-requests: write
-    runs-on: ubuntu-latest
-    steps:
-    
-    - uses: actions/labeler@v6
-      with:
-        sync-labels: true
   
   lint-and-test:
     name: Lint and test ${{ matrix.project }}
