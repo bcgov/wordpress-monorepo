@@ -1,0 +1,127 @@
+name: Pull request checks
+
+on:
+  pull_request:
+
+# Avoid duplicate runs on force-pushes
+concurrency:
+  group: pr-lint-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  labeler:
+    name: Add labels
+    permissions:
+      contents: read
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+    
+    - uses: actions/labeler@v6
+      with:
+        sync-labels: true
+
+  detect-changed-projects:
+    name: Detect changed sub-projects
+    runs-on: ubuntu-latest
+    outputs:
+      projects: ${{ steps.compute.outputs.projects }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # Todo: Diff only the last commit so that checks only run for projects that changed in this commit.
+      # We still need to prove that the checks had previously passed for projects that changed in the PR
+      # but not in the last commit.
+      - name: Compute changed projects (plugins/* or themes/*)
+        id: compute
+        shell: bash
+        run: |
+          BASE="${{ github.event.pull_request.base.sha }}"
+          HEAD="${{ github.event.pull_request.head.sha }}"
+
+          changed_files=( $(git diff --name-only "$BASE" "$HEAD") )
+
+          changed_projects=()
+
+          for line in "${changed_files[@]}"; do
+              if [[ "$line" == "plugins/"* || "$line" == "themes/"* ]]; then
+                  project="$line" | cut -d/ -f 1-2
+                  changed_projects+=( "$(printf '%s\n' "$line" | cut -d/ -f1-2)" )
+              fi
+          done
+
+          IFS=$'\n' changed_projects=($(printf "%s\n" "${changed_projects[@]}" | sort -u))
+
+          echo "Changed projects:"
+          echo "${changed_projects[*]}"
+
+          echo "projects=$(jq --compact-output --null-input '$ARGS.positional' --args -- "${changed_projects[@]}")" >> "$GITHUB_OUTPUT"
+  
+  lint-and-test:
+    name: Lint and test ${{ matrix.project }}
+    needs: detect-changed-projects
+    if: ${{ needs.detect-changed-projects.outputs.projects != '' && needs.detect-changed-projects.outputs.projects != '[]' }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        project: ${{ fromJSON(needs.detect-changed-projects.outputs.projects) }}
+
+    defaults:
+      run:
+        working-directory: ${{ matrix.project }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: 'npm'
+          cache-dependency-path: package-lock.json
+
+      - name: Install Node dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Run css lint
+        run: npm run lint:css
+
+      - name: Run js lint
+        run: npm run lint:js
+
+      # Todo: Run tests when latest plugins and themes are added
+      # - name: Install Playwright Browsers
+      #   run: npx playwright install --with-deps chromium
+
+      # - name: Start wp-env
+      #   run: npm run wp-env start
+
+      # - name: Run JS unit tests
+      #   run: npm run test
+
+      # - name: Run e2e tests
+      #   run: npm run test:e2e
+
+      # - uses: actions/upload-artifact@v4
+      #   if: ${{ !cancelled() }}
+      #   with:
+      #     name: playwright-report
+      #     path: artifacts/test-results/
+      #     retention-days: 30
+
+      # - name: Run screenshot updates
+      #   run: npm run test:screenshot:update
+
+      # - name: Commit and push updated snapshots
+      #   uses: stefanzweifel/git-auto-commit-action@v7.1.0
+      #   with:
+      #     commit_message: 'Update e2e snapshots (committed automatically via Visual Regression workflow)'
