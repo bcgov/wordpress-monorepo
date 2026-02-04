@@ -38,7 +38,7 @@
     "lint:js": "wp-scripts lint-js src/**/*.js",
     "fix:js": "wp-scripts lint-js src/scripts --fix",
     "format": "wp-scripts format src/",
-    "lint:md": "wp-scripts lint-md-docs --config .markdownlint.json --ignore-path .markdownlintignore",
+    "lint:md": "wp-scripts lint-md-docs --config ../../.markdownlint.json --ignore-path ../../.markdownlintignore",
     "fix:md": "wp-scripts lint-md-docs --fix",
     "lint:pkg-json": "wp-scripts lint-pkg-json",
     "packages-update": "wp-scripts packages-update",
