@@ -1,6 +1,7 @@
 {
-    "name": "e2e",
+    "name": "@wordpress-monorepo/e2e",
     "version": "1.0.0",
+    "private": true,
     "description": "Utilities for writing e2e tests for WordPress plugins and themes",
     "license": "GPL-2.0-or-later",
     "author": "",
