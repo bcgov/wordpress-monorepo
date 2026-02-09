@@ -227,7 +227,8 @@ Example:
   "workspaces": [
     "themes/*",
     "plugins/example-plugin",
-    "plugins/example-plugin/Blocks/*"
+    "plugins/example-plugin/Blocks/*",
+    "packages/*"
   ]
 }
 ```
@@ -252,7 +253,6 @@ All packages must implement the following npm scripts:
 
 - `build`
 - `test`
-- `lint:js`
 
 ---
 
@@ -292,7 +292,7 @@ Themes and plugins should only add package-local build configuration when they h
 - PHPUnit configuration (via shared `bcgov/wordpress-utils` package)
 - Playwright configuration (`playwright.config.js`)
 - wp-env configuration (`.wp-env.json`)
-- Shared test utilities and bootstrap files (under `tests/shared/`)
+- Shared test utilities and bootstrap files (under `packages/e2e/`)
 
 Individual packages may define **minimal wrapper configs** that reference the shared setup.
 
