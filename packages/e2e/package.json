@@ -1,0 +1,9 @@
+{
+    "name": "e2e",
+    "version": "1.0.0",
+    "description": "Utilities for writing e2e tests for WordPress plugins and themes",
+    "license": "GPL-2.0-or-later",
+    "author": "",
+    "type": "commonjs",
+    "main": "index.js"
+}
