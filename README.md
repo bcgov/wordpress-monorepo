@@ -227,7 +227,8 @@ Example:
   "workspaces": [
     "themes/*",
     "plugins/example-plugin",
-    "plugins/example-plugin/Blocks/*"
+    "plugins/example-plugin/Blocks/*",
+    "packages/*"
   ]
 }
 ```
@@ -252,7 +253,86 @@ All packages must implement the following npm scripts:
 
 - `build`
 - `test`
-- `lint:js`
+
+---
+
+## Shared Configuration and Tooling
+
+To reduce duplication and configuration drift, this monorepo centralizes common tooling and configuration files at the repository root wherever possible. Themes and plugins consume these shared configurations rather than maintaining their own copies.
+
+The goal is to keep packages lightweight while enforcing consistent standards across the ecosystem.
+
+---
+
+### What Is Centralized
+
+The following files and directories are intended to live at the **monorepo root** and be reused by all themes and plugins:
+
+#### Linting and Formatting
+
+- `.eslint.*`
+- `.markdownlint.*`
+
+Packages should **extend or reference** these configs rather than redefining rules locally.
+
+---
+
+#### JavaScript / Build Tooling
+
+- Shared `@wordpress/scripts` expectations
+- Common overrides
+- Root-level `package.json` scripts
+
+Themes and plugins should only add package-local build configuration when they have legitimate, product-specific needs.
+
+---
+
+#### Testing Infrastructure
+
+- PHPUnit configuration (via shared `bcgov/wordpress-utils` package)
+- Playwright configuration (`playwright.config.js`)
+- wp-env configuration (`.wp-env.json`)
+- Shared test utilities and bootstrap files (under `packages/e2e/`)
+
+Individual packages may define **minimal wrapper configs** that reference the shared setup.
+
+---
+
+#### Git Ignore
+
+- Root `.gitignore` contains common patterns (e.g., `node_modules`, `vendor`, logs)
+- Packages keep only project-specific ignores
+
+---
+
+#### GitHub Workflows
+
+- All CI workflows live under `.github/workflows/` at the root - TODO: Migrate from packages
+- Workflows target themes/plugins using path filters and workspace execution
+
+As packages are migrated:
+
+- Theme- or plugin-local workflows should be **removed**
+- CI behavior is preserved via centralized workflows
+
+---
+
+#### Package-Specific Configuration
+
+- `package.json` (required per package)
+- Package-specific scripts
+- Dependencies unique to that package
+
+---
+
+### Expected Migration Changes
+
+As packages move into the monorepo, it is expected that:
+
+- Redundant config files are deleted from the package
+- Package configs are simplified to reference shared root files
+- GitHub workflows are removed from the package
+- CI behavior is validated via root workflows
 
 ---
 

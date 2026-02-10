@@ -1,27 +1,27 @@
 # https://github.com/actions/labeler
 monorepo:
-  - changed-files:
-    - any-glob-to-any-file:
-      - '**'
-      - '!plugins/**'
-      - '!themes/**'
+    - changed-files:
+          - any-glob-to-any-file:
+                - '**'
+                - '!plugins/**'
+                - '!themes/**'
 
 plugin:
-  - changed-files:
-    - any-glob-to-any-file: 'plugins/**'
+    - changed-files:
+          - any-glob-to-any-file: 'plugins/**'
 
 theme:
-  - changed-files:
-    - any-glob-to-any-file: 'themes/**'
+    - changed-files:
+          - any-glob-to-any-file: 'themes/**'
 
 plugins/design-system-wordpress-plugin:
-  - changed-files:
-    - any-glob-to-any-file: 'plugins/design-system-wordpress-plugin/**'
+    - changed-files:
+          - any-glob-to-any-file: 'plugins/design-system-wordpress-plugin/**'
 
 themes/child-theme-hporoo:
-  - changed-files:
-    - any-glob-to-any-file: 'themes/design-system-wordpress-child-theme-hporoo/**'
+    - changed-files:
+          - any-glob-to-any-file: 'themes/design-system-wordpress-child-theme-hporoo/**'
 
 themes/child-theme-template:
-  - changed-files:
-    - any-glob-to-any-file: 'themes/design-system-wordpress-child-theme-template/**'
+    - changed-files:
+          - any-glob-to-any-file: 'themes/design-system-wordpress-child-theme-template/**'

@@ -1,26 +1,48 @@
 {
-  "name": "bcgov-wordpress-monorepo",
-  "description": "BC Government WordPress themes and plugins monorepo",
-  "author": "govwordpress@gov.bc.ca",
-  "license": "GPL-2.0-or-later",
-  "engines": {
-    "node": "^24.12.0"
-  },
-  "workspaces": [
-    "themes/*",
-    "plugins/*",
-    "plugins/*/*"
-  ],
-  "devDependencies": {
-    "@wordpress/scripts": "^31.2.0",
-    "@playwright/test": "^1.57.0",
-    "@bcgov/wordpress-eslint": "github:bcgov/wordpress-eslint#semver:1.x",
-    "@bcgov/wordpress-stylelintrc": "github:bcgov/wordpress-stylelintrc#semver:1.x",
-    "@babel/runtime": "^7.28.4"
-  },
-  "scripts": {
-    "build": "npm run build --workspaces --if-present",
-    "test": "npm run test --workspaces --if-present",
-    "lint:js": "npm run lint:js --workspaces --if-present"
-  }
+    "name": "bcgov-wordpress-monorepo",
+    "version": "0.0.1",
+    "description": "BC Government WordPress themes and plugins monorepo",
+    "author": "govwordpress@gov.bc.ca",
+    "license": "GPL-2.0-or-later",
+    "keywords": ["bcgov","wordpress","monorepo","plugins","themes"],
+    "homepage": "https://github.com/bcgov/wordpress-monorepo",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/bcgov/wordpress-monorepo"
+    },
+    "bugs": "https://github.com/bcgov/wordpress-monorepo/issues",
+    "engines": {
+        "node": "^24.12.0"
+    },
+    "workspaces": [
+        "themes/*",
+        "plugins/*",
+        "plugins/*/*",
+        "packages/*"
+    ],
+    "devDependencies": {
+        "@playwright/test": "^1.57.0",
+        "@wordpress/scripts": "^31.2.0",
+        "@wordpress/stylelint-config": "^23.30.0",
+        "eslint-plugin-prefer-arrow": "^1.2.3"
+    },
+    "scripts": {
+        "build": "npm run build --workspaces --if-present",
+        "test": "npm run test --workspaces --if-present",
+        "lint": "npm run lint:js && npm run lint:css && npm run lint:php && npm run lint:html && npm run lint:md && npm run lint:pkg-json",
+        "lint:js": "wp-scripts lint-js",
+        "fix:js": "wp-scripts lint-js --fix",
+        "lint:css": "wp-scripts lint-style",
+        "fix:css": "wp-scripts lint-style --fix",
+        "lint:php": "composer run lint:php",
+        "fix:php": "composer run fix:php",
+        "lint:html": "npx prettier --check **/*.{html,php}",
+        "fix:html": "npx prettier --write **/*.{html,php}",
+        "lint:md": "wp-scripts lint-md-docs",
+        "fix:md": "wp-scripts lint-md-docs --fix",
+        "lint:pkg-json": "wp-scripts lint-pkg-json",
+        "format": "wp-scripts format",
+        "check-engines": "wp-scripts check-engines",
+        "check-licenses": "wp-scripts check-licenses --prod"
+    }
 }
