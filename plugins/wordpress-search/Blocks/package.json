@@ -43,8 +43,6 @@
 		"test": "npm run test:unit"
 	},
 	"devDependencies": {
-		"@bcgov/wordpress-eslint": "git+https://github.com/bcgov/wordpress-eslint.git#semver:1.x",
-		"@bcgov/wordpress-stylelintrc": "git+https://github.com/bcgov/wordpress-stylelintrc.git#semver:1.x",
 		"@wordpress/scripts": "^31.2.0",
 		"ajv": "^8.17.1",
 		"ajv-keywords": "^5.1.0",

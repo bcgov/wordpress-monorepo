@@ -1,10 +1,17 @@
 {
     "name": "bcgov-wordpress-monorepo",
     "version": "0.0.1",
+    "private": true,
     "description": "BC Government WordPress themes and plugins monorepo",
     "author": "govwordpress@gov.bc.ca",
     "license": "GPL-2.0-or-later",
-    "keywords": ["bcgov","wordpress","monorepo","plugins","themes"],
+    "keywords": [
+        "bcgov",
+        "wordpress",
+        "monorepo",
+        "plugins",
+        "themes"
+    ],
     "homepage": "https://github.com/bcgov/wordpress-monorepo",
     "repository": {
         "type": "git",
@@ -17,18 +24,22 @@
     "workspaces": [
         "themes/*",
         "plugins/*",
-        "plugins/*/*",
         "packages/*"
     ],
     "devDependencies": {
-        "@playwright/test": "^1.57.0",
-        "@wordpress/scripts": "^31.2.0",
-        "@wordpress/stylelint-config": "^23.30.0",
+        "@playwright/test": "^1.58.2",
+        "@wordpress/env": "^10.39.0",
+        "@wordpress/scripts": "^31.4.0",
+        "@wordpress/stylelint-config": "^23.31.0",
         "eslint-plugin-prefer-arrow": "^1.2.3"
     },
     "scripts": {
         "build": "npm run build --workspaces --if-present",
-        "test": "npm run test --workspaces --if-present",
+        "test:e2e": "npm run test:e2e --workspaces --if-present",
+        "test:integration": "npm run test:integration --workspaces --if-present",
+        "test:screenshot:update": "npm run test:screenshot:update --workspaces --if-present",
+        "test:unit:js": "npm run test:unit:js --workspaces --if-present",
+        "test:unit:php": "npm run test:unit:php --workspaces --if-present",
         "lint": "npm run lint:js && npm run lint:css && npm run lint:php && npm run lint:html && npm run lint:md && npm run lint:pkg-json",
         "lint:js": "wp-scripts lint-js",
         "fix:js": "wp-scripts lint-js --fix",

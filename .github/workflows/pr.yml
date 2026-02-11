@@ -23,11 +23,9 @@ jobs:
               with:
                   sync-labels: true
 
-    detect-changed-projects:
-        name: Lint monorepo and detect changed sub-projects
+    lint:
+        name: Lint monorepo
         runs-on: ubuntu-latest
-        outputs:
-            projects: ${{ steps.compute.outputs.projects }}
         continue-on-error: true
         steps:
             - name: Checkout
@@ -45,6 +43,9 @@ jobs:
             - name: Install Node dependencies
               run: npm ci --no-audit --no-fund
 
+            - name: Install Composer dependencies
+              run: composer i
+
             - name: Run css lint
               run: npm run lint:css
 
@@ -53,6 +54,17 @@ jobs:
 
             - name: Run php lint
               run: npm run lint:php
+
+    detect-changed-projects:
+        name: Detect changed sub-projects
+        runs-on: ubuntu-latest
+        outputs:
+            projects: ${{ steps.compute.outputs.projects }}
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
 
             # Todo: Diff only the last commit so that checks only run for projects that changed in this commit.
             # We still need to prove that the checks had previously passed for projects that changed in the PR
@@ -82,46 +94,66 @@ jobs:
 
                   echo "projects=$(jq --compact-output --null-input '$ARGS.positional' --args -- "${changed_projects[@]}")" >> "$GITHUB_OUTPUT"
 
-    # test:
-    #     name: Test ${{ matrix.project }}
-    #     needs: detect-changed-projects
-    #     if: ${{ needs.detect-changed-projects.outputs.projects != '' && needs.detect-changed-projects.outputs.projects != '[]' }}
-    #     runs-on: ubuntu-latest
+    build-and-test:
+        name: Build and Test ${{ matrix.project }}
+        needs: detect-changed-projects
+        if: ${{ needs.detect-changed-projects.outputs.projects != '' && needs.detect-changed-projects.outputs.projects != '[]' }}
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix:
+                project: ${{ fromJSON(needs.detect-changed-projects.outputs.projects) }}
+        defaults:
+            run:
+                working-directory: ${{ matrix.project }}
+        permissions:
+            contents: write
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
 
-    #     strategy:
-    #         fail-fast: false
-    #         matrix:
-    #             project: ${{ fromJSON(needs.detect-changed-projects.outputs.projects) }}
+            - name: Setup Node
+              uses: actions/setup-node@v4
+              with:
+                  node-version: '24'
+                  cache: 'npm'
+                  cache-dependency-path: package-lock.json
 
-    #     defaults:
-    #         run:
-    #             working-directory: ${{ matrix.project }}
+            - name: Install Node dependencies
+              run: npm ci --no-audit --no-fund
 
-    #     steps:
-            # Todo: Run tests when latest plugins and themes are added
-            # - name: Install Playwright Browsers
-            #   run: npx playwright install --with-deps chromium
+            - name: Install Composer dependencies
+              run: composer i
 
-            # - name: Start wp-env
-            #   run: npm run wp-env start
+            - name: Build
+              run: npm run build
 
-            # - name: Run JS unit tests
-            #   run: npm run test
+            - name: Install Playwright Browsers
+              run: npx playwright install --with-deps chromium
 
-            # - name: Run e2e tests
-            #   run: npm run test:e2e
+            - name: Start wp-env
+              run: npm run wp-env start
 
-            # - uses: actions/upload-artifact@v4
-            #   if: ${{ !cancelled() }}
-            #   with:
-            #     name: playwright-report
-            #     path: artifacts/test-results/
-            #     retention-days: 30
+            - name: Run PHP integration tests
+              run: npm run test:integration
 
-            # - name: Run screenshot updates
-            #   run: npm run test:screenshot:update
+            - name: Run JS unit tests
+              run: npm run test:unit:js
 
-            # - name: Commit and push updated snapshots
-            #   uses: stefanzweifel/git-auto-commit-action@v7.1.0
-            #   with:
-            #     commit_message: 'Update e2e snapshots (committed automatically via Visual Regression workflow)'
+            - name: Run e2e tests
+              run: npm run test:e2e
+
+            - uses: actions/upload-artifact@v4
+              if: ${{ !cancelled() }}
+              with:
+                name: playwright-report
+                path: artifacts/test-results/
+                retention-days: 30
+
+            - name: Run screenshot updates
+              run: npm run test:screenshot:update
+
+            - name: Commit and push updates
+              uses: stefanzweifel/git-auto-commit-action@v7.1.0
+              with:
+                commit_message: 'Update e2e snapshots (committed automatically via Visual Regression workflow)'
