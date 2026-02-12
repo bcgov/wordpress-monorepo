@@ -134,9 +134,6 @@ jobs:
             - name: Start wp-env
               run: npm run wp-env start
 
-            - name: Run PHP integration tests
-              run: npm run test:integration
-
             - name: Run JS unit tests
               run: npm run test:unit:js
 
@@ -152,6 +149,9 @@ jobs:
 
             - name: Run screenshot updates
               run: npm run test:screenshot:update
+
+            - name: Run PHP integration tests
+              run: npm run test:integration
 
             - name: Commit and push updates
               uses: stefanzweifel/git-auto-commit-action@v7.1.0

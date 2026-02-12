@@ -3,6 +3,7 @@
     "description": "WordPress Search Plugin",
     "type": "wordpress-plugin",
     "license": "Apache-2.0",
+    "version": "1.1.0",
     "repositories": [
         {
             "type": "composer",
