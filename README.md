@@ -252,7 +252,6 @@ If a workspace script fails with `MODULE_NOT_FOUND`:
 All packages must implement the following npm scripts:
 
 - `build`
-- `test`
 
 ---
 
@@ -272,8 +271,9 @@ The following files and directories are intended to live at the **monorepo root*
 
 - `.eslint.*`
 - `.markdownlint.*`
-
-Packages should **extend or reference** these configs rather than redefining rules locally.
+- `.prettierrc.js`
+- `.stylelintrc`
+- `phpcs.xml`
 
 ---
 
@@ -282,6 +282,7 @@ Packages should **extend or reference** these configs rather than redefining rul
 - Shared `@wordpress/scripts` expectations
 - Common overrides
 - Root-level `package.json` scripts
+- All linting (PHP, JS, CSS, etc.) is performed via the root `package.json` scripts
 
 Themes and plugins should only add package-local build configuration when they have legitimate, product-specific needs.
 
@@ -289,8 +290,8 @@ Themes and plugins should only add package-local build configuration when they h
 
 #### Testing Infrastructure
 
-- PHPUnit configuration (via shared `bcgov/wordpress-utils` package)
-- Playwright configuration (`playwright.config.js`)
+- PHPUnit configuration
+- Playwright configuration (`packages/e2e/playwright.config.js`)
 - wp-env configuration (`.wp-env.json`)
 - Shared test utilities and bootstrap files (under `packages/e2e/`)
 
@@ -300,7 +301,7 @@ Individual packages may define **minimal wrapper configs** that reference the sh
 
 #### Git Ignore
 
-- Root `.gitignore` contains common patterns (e.g., `node_modules`, `vendor`, logs)
+- Root `.gitignore` contains common patterns (e.g., `node_modules`, `vendor`, `build`, `dist` logs)
 - Packages keep only project-specific ignores
 
 ---
@@ -321,7 +322,7 @@ As packages are migrated:
 
 - `package.json` (required per package)
 - Package-specific scripts
-- Dependencies unique to that package
+- Dependencies used by that package
 
 ---
 
@@ -352,7 +353,7 @@ At the repository root, define workspaces of any package.json files in pnpm-work
 packages:
   - "themes/*"
   - "plugins/*"
-  - "plugins/Blocks/*"
+  - "packages/*"
 ```
 
 ### Using pnpm Locally
