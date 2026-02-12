@@ -1,4 +1,4 @@
 packages:
     - 'themes/*'
     - 'plugins/*'
-    - 'plugins/*/*'
+    - 'packages/*'

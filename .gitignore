@@ -2,7 +2,6 @@
 node_modules
 vendor
 coverage
-dist
 .cache
 .temp
 .idea
@@ -19,3 +18,11 @@ documentation/docs/.vuepress/dist/**
 documentation/docs/.vuepress/.temp
 documentation/docs/.vuepress/.cache
 documentation/node_modules
+
+# e2e testing artifacts
+artifacts/
+test-results/
+
+# Build files
+dist/
+build/

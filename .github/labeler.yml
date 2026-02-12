@@ -18,6 +18,10 @@ plugins/design-system-wordpress-plugin:
     - changed-files:
           - any-glob-to-any-file: 'plugins/design-system-wordpress-plugin/**'
 
+plugins/wordpress-search:
+    - changed-files:
+          - any-glob-to-any-file: 'plugins/wordpress-search/**'
+
 themes/child-theme-hporoo:
     - changed-files:
           - any-glob-to-any-file: 'themes/design-system-wordpress-child-theme-hporoo/**'

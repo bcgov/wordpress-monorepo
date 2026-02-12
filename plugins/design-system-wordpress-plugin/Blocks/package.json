@@ -28,9 +28,7 @@
 	
 	},
 	"devDependencies": {
-		"@wordpress/scripts": "^30.3.0",
-		"@bcgov/wordpress-eslint": "git+https://github.com/bcgov/wordpress-eslint.git#semver:1.x",
-		"@bcgov/wordpress-stylelintrc": "git+https://github.com/bcgov/wordpress-stylelintrc.git#semver:1.x",	
+		"@wordpress/scripts": "^30.3.0",	
 		"prettier": "^2.2.0"
 	},
 	"dependencies": {

@@ -5,6 +5,7 @@
  */
 
 import { expect } from '@playwright/test';
+import config from './playwright.config';
 
 /**
  * Common page interactions.
@@ -64,3 +65,5 @@ export class WordPressHelpers extends PageHelpers {
         await expect( this.page.locator( '.notice-success' ) ).toBeVisible();
     }
 }
+
+export { config };

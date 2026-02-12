@@ -25,8 +25,6 @@
   },
   "main": "index.js",
   "devDependencies": {
-    "@bcgov/wordpress-eslint": "github:bcgov/wordpress-eslint#semver:1.x",
-    "@bcgov/wordpress-stylelintrc": "github:bcgov/wordpress-stylelintrc#semver:1.x",
     "@wordpress/scripts": "^28.6.0"
   },
   "dependencies": {
