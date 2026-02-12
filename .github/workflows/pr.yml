@@ -156,4 +156,4 @@ jobs:
             - name: Commit and push updates
               uses: stefanzweifel/git-auto-commit-action@v7.1.0
               with:
-                commit_message: 'Update e2e snapshots (committed automatically via Visual Regression workflow)'
+                commit_message: 'Update e2e snapshots (committed automatically via Visual Regression workflow) [skip ci]'

@@ -19,3 +19,7 @@ documentation/docs/.vuepress/dist/**
 documentation/docs/.vuepress/.temp
 documentation/docs/.vuepress/.cache
 documentation/node_modules
+
+# e2e testing artifacts
+artifacts/
+test-results/
