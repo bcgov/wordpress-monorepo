@@ -153,7 +153,8 @@ jobs:
             - name: Run PHP integration tests
               run: npm run test:integration
 
-            - name: Commit and push updates
-              uses: stefanzweifel/git-auto-commit-action@v7.1.0
-              with:
-                commit_message: 'Update e2e snapshots (committed automatically via Visual Regression workflow) [skip ci]'
+            # Todo: Determine how to allow bot commits without retriggering default CodeQL check.
+            # - name: Commit and push updates
+            #   uses: stefanzweifel/git-auto-commit-action@v7.1.0
+            #   with:
+            #     commit_message: 'Update e2e snapshots (committed automatically via Visual Regression workflow) [skip ci]'
