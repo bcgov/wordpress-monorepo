@@ -7,7 +7,7 @@ const lintSeverity = process.env.LINT_SEVERITY ?? 'error';
 module.exports = {
     root: true,
     // React rules used for Gutenberg
-    extends: [ 'eslint:recommended', 'plugin:react/recommended' ],
+    extends: [ 'eslint:recommended', 'plugin:react/recommended', 'plugin:playwright/recommended' ],
     env: {
         node: true,
         es6: true,

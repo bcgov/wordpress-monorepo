@@ -23,16 +23,17 @@
   "main": "index.js",
   "type": "module",
   "devDependencies": {
+    "@wordpress-monorepo/e2e": "workspace:*",
     "@wordpress/e2e-test-utils-playwright": "^1.37.0",
     "@wordpress/env": "^10.37.0",
     "@wordpress/scripts": "^31.2.0",
-    "@wordpress-monorepo/e2e": "*",
     "ajv": "^8.17.1"
   },
   "scripts": {
     "start": "wp-scripts start",
     "build": "wp-scripts build",
-    "test": "npm run test:unit:js",
+    "composer:install": "composer install",
+    "test": "npm run wp-env start && npm run test:unit:js && npm run test:e2e && npm run test:integration",
     "test:unit:js": "wp-scripts test-unit-js --passWithNoTests",
     "test:e2e": "wp-scripts test-playwright",
     "test:e2e:help": "wp-scripts test-playwright --help",

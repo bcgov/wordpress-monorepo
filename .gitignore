@@ -26,3 +26,7 @@ test-results/
 # Build files
 dist/
 build/
+
+# nx files
+.nx/cache
+.nx/workspace-data

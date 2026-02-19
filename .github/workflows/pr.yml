@@ -55,8 +55,8 @@ jobs:
             - name: Run php lint
               run: npm run lint:php
 
-    detect-changed-projects:
-        name: Detect changed sub-projects
+    detect-affected-projects:
+        name: Detect affected sub-projects
         runs-on: ubuntu-latest
         outputs:
             projects: ${{ steps.compute.outputs.projects }}
@@ -66,33 +66,10 @@ jobs:
               with:
                   fetch-depth: 0
 
-            # Todo: Diff only the last commit so that checks only run for projects that changed in this commit.
-            # We still need to prove that the checks had previously passed for projects that changed in the PR
-            # but not in the last commit.
-            - name: Compute changed projects (plugins/* or themes/*)
+            - name: Get affected projects
               id: compute
               shell: bash
-              run: |
-                  BASE="${{ github.event.pull_request.base.sha }}"
-                  HEAD="${{ github.event.pull_request.head.sha }}"
-
-                  changed_files=( $(git diff --name-only "$BASE" "$HEAD") )
-
-                  changed_projects=()
-
-                  for line in "${changed_files[@]}"; do
-                      if [[ "$line" == "plugins/"* || "$line" == "themes/"* ]]; then
-                          project="$line" | cut -d/ -f 1-2
-                          changed_projects+=( "$(printf '%s\n' "$line" | cut -d/ -f1-2)" )
-                      fi
-                  done
-
-                  IFS=$'\n' changed_projects=($(printf "%s\n" "${changed_projects[@]}" | sort -u))
-
-                  echo "Changed projects:"
-                  echo "${changed_projects[*]}"
-
-                  echo "projects=$(jq --compact-output --null-input '$ARGS.positional' --args -- "${changed_projects[@]}")" >> "$GITHUB_OUTPUT"
+              run: echo "projects=$(npx nx show projects --affected --json)" >> "$GITHUB_OUTPUT"
 
     build-and-test:
         name: Build and Test ${{ matrix.project }}
@@ -123,22 +100,22 @@ jobs:
               run: npm ci --no-audit --no-fund
 
             - name: Install Composer dependencies
-              run: composer i
+              run: nx run ${{ matrix.project }}:composer:install
 
             - name: Install Playwright dependencies
               run: npx playwright install --with-deps
 
             - name: Build
-              run: npm run build
+              run: nx run ${{ matrix.project }}:build
 
             - name: Start wp-env
-              run: npm run wp-env start
+              run: nx run ${{ matrix.project }}:wp-env start
 
             - name: Run JS unit tests
-              run: npm run test:unit:js
+              run: nx run ${{ matrix.project }}:test:unit:js
 
             - name: Run e2e tests
-              run: npm run test:e2e
+              run: nx run ${{ matrix.project }}:test:e2e
 
             - uses: actions/upload-artifact@v4
               if: ${{ !cancelled() }}
@@ -148,10 +125,10 @@ jobs:
                 retention-days: 30
 
             - name: Run screenshot updates
-              run: npm run test:screenshot:update
+              run: nx run ${{ matrix.project }}:test:screenshot
 
             - name: Run PHP integration tests
-              run: npm run test:integration
+              run: nx run ${{ matrix.project }}:test:integration
 
             # Todo: Determine how to allow bot commits without retriggering default CodeQL check.
             # - name: Commit and push updates

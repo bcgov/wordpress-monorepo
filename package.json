@@ -31,10 +31,14 @@
         "@wordpress/env": "^10.39.0",
         "@wordpress/scripts": "^31.4.0",
         "@wordpress/stylelint-config": "^23.31.0",
-        "eslint-plugin-prefer-arrow": "^1.2.3"
+        "eslint-plugin-playwright": "^2.5.1",
+        "eslint-plugin-prefer-arrow": "^1.2.3",
+        "nx": "22.5.0"
     },
     "scripts": {
-        "build": "npm run build --workspaces --if-present",
+        "build": "nx run-many -t build",
+        "start": "nx watch --all -- nx run \\$NX_PROJECT_NAME:start --no-watch",
+        "test": "nx run-many -t test",
         "test:e2e": "npm run test:e2e",
         "test:integration": "npm run test:integration",
         "test:screenshot:update": "npm run test:screenshot:update",
