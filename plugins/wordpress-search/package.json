@@ -1,0 +1,47 @@
+{
+  "name": "wordpress-search",
+  "version": "1.0.0",
+  "description": "Wordpress Search Plugin",
+  "author": "govwordpress@gov.bc.ca",
+  "license": "GPL-2.0-or-later",
+  "keywords": [
+    "WordPress",
+    "Block Theme",
+    "BCGov",
+    "Plugin",
+    "Gutenberg"
+  ],
+  "homepage": "https://github.com/bcgov/wordpress-search#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bcgov/wordpress-search.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bcgov/wordpress-search#readme",
+    "email": "govwordpress@gov.bc.ca"
+  },
+  "main": "index.js",
+  "type": "module",
+  "devDependencies": {
+    "@wordpress/e2e-test-utils-playwright": "^1.37.0",
+    "@wordpress/env": "^10.37.0",
+    "@wordpress/scripts": "^31.2.0",
+    "@wordpress-monorepo/e2e": "*",
+    "ajv": "^8.17.1"
+  },
+  "scripts": {
+    "start": "wp-scripts start",
+    "build": "wp-scripts build",
+    "test": "npm run test:unit:js",
+    "test:unit:js": "wp-scripts test-unit-js --passWithNoTests",
+    "test:e2e": "wp-scripts test-playwright",
+    "test:e2e:help": "wp-scripts test-playwright --help",
+    "test:e2e:debug": "wp-scripts test-playwright --debug",
+    "test:e2e:headed": "wp-scripts test-playwright --headed",
+    "test:screenshot": "npx playwright test --config=tests/screenshot",
+    "test:screenshot:update": "npx playwright test --config=tests/screenshot --update-snapshots",
+    "test:integration": "wp-env run tests-cli --env-cwd=wp-content/plugins/wordpress-search composer run test",
+    "test:integration:coverage": "wp-env run tests-cli --env-cwd=wp-content/plugins/wordpress-search composer run coverage",
+    "wp-env": "wp-env"
+  }
+}
