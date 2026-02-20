@@ -33,15 +33,14 @@ jobs:
               with:
                   fetch-depth: 0
 
-            - name: Setup Node
-              uses: actions/setup-node@v4
+            - uses: pnpm/action-setup@v4
+              name: Install pnpm
               with:
-                  node-version: '24'
-                  cache: 'npm'
-                  cache-dependency-path: package-lock.json
+                version: 10
+                cache: true
 
-            - name: Install Node dependencies
-              run: npm ci --no-audit --no-fund
+            - name: Install dependencies
+              run: pnpm install
 
             - name: Install Composer dependencies
               run: composer i
@@ -66,16 +65,14 @@ jobs:
               with:
                   fetch-depth: 0
 
-            - name: Setup Node
-              uses: actions/setup-node@v4
+            - uses: pnpm/action-setup@v4
+              name: Install pnpm
               with:
-                  node-version: '24'
-                  cache: 'npm'
-                  cache-dependency-path: package-lock.json
+                version: 10
+                cache: true
 
-            - name: Install Node dependencies
-              run: npm ci --no-audit --no-fund
-
+            - name: Install dependencies
+              run: pnpm install
             - name: Get affected projects
               id: compute
               shell: bash
@@ -99,15 +96,14 @@ jobs:
             - name: Checkout
               uses: actions/checkout@v4
 
-            - name: Setup Node
-              uses: actions/setup-node@v4
+            - uses: pnpm/action-setup@v4
+              name: Install pnpm
               with:
-                  node-version: '24'
-                  cache: 'npm'
-                  cache-dependency-path: package-lock.json
+                version: 10
+                cache: true
 
-            - name: Install Node dependencies
-              run: npm ci --no-audit --no-fund
+            - name: Install dependencies
+              run: pnpm install
 
             - name: Install Composer dependencies
               run: nx run ${{ matrix.project }}:composer:install
