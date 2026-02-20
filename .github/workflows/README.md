@@ -9,5 +9,4 @@ Runs on every new commit in a PR. Features:
   - See `.github/labeler.yml` for label configuration.
     - Note: when a new sub-project (plugin or theme) is added to the monorepo, it should be added to the `labeler.yml` configuration.
 - Sub-project change detection [matrix](https://docs.github.com/en/actions/how-tos/write-workflows/choose-what-workflows-do/run-job-variations)
-  - Files changed in the PR are analyzed to determine which sub-projects had files changed. Once the list of changed sub-projects is found, it's passed to the next job which uses a matrix to run the linting and testing only for that list of changed projects. The linting and testing jobs run concurrently.
-  - Note: when monorepo-wide files (ie. files not in `plugins/` or `themes/`) are changed, this **should** trigger all sub-projects to run their checks, but this is not yet implemented. This should also happen in cases where sub-projects are dependent on each other, for example when a parent theme is changed, checks should run for all of its child themes too.
+  - Files changed in the PR are analyzed using `nx` to determine which sub-projects were affected. The list of affected projects is then passed to the next job which uses a matrix to run the build and testing only for that list of changed projects. The build and testing jobs run concurrently.
