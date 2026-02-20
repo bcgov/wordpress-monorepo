@@ -1,0 +1,27 @@
+{
+    "$schema": "./node_modules/nx/schemas/nx-schema.json",
+    "targetDefaults": {
+        "build": {
+            "dependsOn": [ "^build" ],
+            "inputs": [ "source" ],
+            "cache": true
+        },
+        "test": {
+            "dependsOn": [ "^build", "^test" ],
+            "inputs": [ "source" ],
+            "cache": true
+        }
+    },
+    "namedInputs": {
+        "default": [ "{projectRoot}/**/*", "sharedGlobals" ],
+        "source": [ "default", "!{projectRoot}/**/*.md" ],
+        "sharedGlobals": []
+    },
+    "release": {
+        "changelog": {
+            "workspaceChangelog": {
+                "createRelease": "github"
+            }
+        }
+    }
+}

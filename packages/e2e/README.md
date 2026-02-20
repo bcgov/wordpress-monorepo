@@ -7,7 +7,7 @@ This package demonstrates how internally sharing code between plugins/themes cou
 In the plugin or theme `package.json`:
 ```json
   "devDependencies": {
-    "@wordpress-monorepo/e2e": "*",
+    "@wordpress-monorepo/e2e": "workspace:*",
   },
 ```
 
