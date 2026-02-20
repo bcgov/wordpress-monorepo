@@ -62,6 +62,8 @@ jobs:
         steps:
             - name: Checkout
               uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
 
             - uses: pnpm/action-setup@v4
               name: Install pnpm
@@ -71,10 +73,17 @@ jobs:
 
             - name: Install dependencies
               run: pnpm install
+
             - name: Get affected projects
               id: compute
               shell: bash
-              run: echo "projects=$(npx nx show projects --affected --json)" >> "$GITHUB_OUTPUT"
+              run: |
+                json="$(npx nx show projects --affected --json)"
+                {
+                  echo "projects<<EOF"
+                  echo "$json"
+                  echo "EOF"
+                } >> "$GITHUB_OUTPUT"
 
     build-and-test:
         name: Build and Test ${{ matrix.project }}
