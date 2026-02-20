@@ -76,7 +76,7 @@ jobs:
 
             - name: Get affected projects
               id: compute
-              shell: bash
+              uses: nrwl/nx-set-shas@v4
               run: npx nx show projects --affected --json
 
     build-and-test:
