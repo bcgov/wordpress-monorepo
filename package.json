@@ -19,7 +19,7 @@
     },
     "bugs": "https://github.com/bcgov/wordpress-monorepo/issues",
     "engines": {
-        "node": "^20.20.0"
+        "node": "^24.12.0"
     },
     "workspaces": [
         "themes/*",
@@ -29,16 +29,16 @@
     "devDependencies": {
         "@playwright/test": "^1.58.2",
         "@wordpress/env": "^10.39.0",
-        "@wordpress/scripts": "^31.4.0",
-        "@wordpress/stylelint-config": "^23.31.0",
-        "eslint-plugin-playwright": "^2.5.1",
+        "@wordpress/scripts": "^31.5.0",
+        "@wordpress/stylelint-config": "^23.32.0",
+        "eslint-plugin-playwright": "^2.7.0",
         "eslint-plugin-prefer-arrow": "^1.2.3",
         "nx": "22.5.0"
     },
     "scripts": {
-        "build": "nx run-many -t build",
-        "start": "nx watch --all -- nx run \\$NX_PROJECT_NAME:start --no-watch",
-        "test": "nx run-many -t test",
+        "build": "npx nx run-many -t build",
+        "start": "npx nx watch --all -- nx run \\$NX_PROJECT_NAME:start --no-watch",
+        "test": "npx nx run-many -t test",
         "test:e2e": "npm run test:e2e",
         "test:integration": "npm run test:integration",
         "test:screenshot:update": "npm run test:screenshot:update",
