@@ -100,7 +100,7 @@ jobs:
                     HEAD="${{ github.sha }}"
                   fi
 
-                  npx nx show projects --base=$BASE --head=$HEAD --affected --json
+                  echo "projects=$(npx nx show projects --base=$BASE --head=$HEAD --affected --json)" >> "$GITHUB_OUTPUT"
 
     build-and-test:
         name: Build and Test ${{ matrix.project }}
