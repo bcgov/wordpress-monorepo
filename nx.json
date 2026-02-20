@@ -16,5 +16,12 @@
         "default": [ "{projectRoot}/**/*", "sharedGlobals" ],
         "source": [ "default", "!{projectRoot}/**/*.md" ],
         "sharedGlobals": []
+    },
+    "release": {
+        "changelog": {
+            "workspaceChangelog": {
+                "createRelease": "github"
+            }
+        }
     }
 }

@@ -3,6 +3,21 @@
 This repository contains WordPress themes and plugins managed within a single Git monorepo.
 The primary goals are consistency, shared tooling, and safer long-term maintenance while preserving historical context.
 
+## Nx
+
+This repository uses `nx` for various monorepo-related tasks:
+
+1. Calculating project graph and affected projects
+   - A project dependency graph is automatically calculated by `nx`, for example, child themes would be dependent on their parent theme such that any change to the parent theme code causes its child themes to have the build/test pipeline run on them (see `.github/workflows/`). We can use the `nx show projects --affected` command to get the list of projects affected by changes in the current branch.
+2. Task orchestration and caching
+   - Tasks (eg. `npm` scripts) can be run easily for many projects using commands like `nx run-many -t build` which will cause all projects with an `npm` `build` script to run in parallel. Results of the above command will also be cached and stored in `.nx/cache` so that if the same command is run again without changes to the underlying source files, the command will finish immediately using the cached result.
+3. Repository importing
+   - The process of importing a new plugin or theme into the monorepo can be done using the `nx import` command, given a repository and a monorepo path.
+4. Release process (eventually)
+   - The process of releasing a version of a plugin or theme may be able to be automated using the `nx release` command. More research is needed to determine how this might work.
+
+See the [nx documentation](https://nx.dev/docs/getting-started/intro) for more information.
+
 ---
 
 ## Contributing
@@ -18,7 +33,24 @@ The example below assumes you are adding a theme and uses `example-theme` as a p
 
 ### Migration Process
 
-#### 1. Pre-step: Freeze Development
+#### Nx steps
+
+##### 1. Run nx import command
+
+```bash
+nx import <git repo url> <destination path>
+```
+
+Then follow the on-screen wizard to finish the import.
+
+Example:
+```bash
+nx import https://github.com/bcgov/design-system-wordpress-theme themes/design-system-wordpress-theme
+```
+
+#### Manual steps
+
+##### 1. Pre-step: Freeze Development
 
 Before starting the migration:
 
@@ -28,7 +60,7 @@ Before starting the migration:
 
 ---
 
-#### 2. Clone the Existing Repository
+##### 2. Clone the Existing Repository
 
 Create a fresh clone that will be rewritten:
 
@@ -39,7 +71,7 @@ cd example-theme
 
 ---
 
-#### 3. Rewrite History into the Monorepo Structure
+##### 3. Rewrite History into the Monorepo Structure
 
 Move the entire repository history so it appears to have always lived under the monorepo path.
 
@@ -49,7 +81,7 @@ git filter-repo --to-subdirectory-filter themes/example-theme
 
 ---
 
-#### 4. Rename Existing Tags
+##### 4. Rename Existing Tags
 
 Rename tags to avoid collisions with other packages in the monorepo.
 
@@ -62,7 +94,7 @@ git filter-repo --tag-rename '':'themes/example-theme/'
 
 ---
 
-#### 5. Merge the Rewritten Repository into the Monorepo
+##### 5. Merge the Rewritten Repository into the Monorepo
 
 Assuming the following directory structure:
 
@@ -89,7 +121,7 @@ themes/
 
 ---
 
-#### 6. Verify History Preservation
+##### 6. Verify History Preservation
 
 Confirm that commit history and blame information are intact.
 
@@ -101,7 +133,7 @@ git blame themes/example-theme/README.md
 
 ---
 
-#### 7. Additional Branches
+##### 7. Additional Branches
 
 Branches other than `main` may be recreated for historical reference.
 
@@ -114,7 +146,7 @@ git push origin themes/example-theme/release-1.1.0
 
 ---
 
-#### 8. Pushing Tags
+##### 8. Pushing Tags
 
 Review tags locally:
 
@@ -137,7 +169,7 @@ git push origin --tags
 
 ---
 
-#### 9. Cleanup
+##### 9. Cleanup
 
 ```bash
 git remote remove example-theme
@@ -158,6 +190,14 @@ Theme- and plugin-level workflows will eventually be replaced by root-level work
 - This monorepo **does not produce production releases**
 - Official releases continue to be cut from original repositories
 - Scoped tags and release branches exist for historical reference and future planning
+
+### Release Process
+
+Todo: Determine how to automate release process using nx.
+
+```bash
+nx release ...
+```
 
 ---
 
@@ -198,7 +238,7 @@ This installs root tooling and all workspace dependencies. There is no need to r
 Example:
 
 ```bash
-npm run build --workspaces --if-present
+npm run build
 ```
 
 This runs `build` in each workspace where the script exists, using the workspace directory as the execution context.
@@ -252,6 +292,8 @@ If a workspace script fails with `MODULE_NOT_FOUND`:
 All packages must implement the following npm scripts:
 
 - `build`
+- `composer:install`
+- If tests exist, `wp-env`, `test:e2e`, etc.
 
 ---
 

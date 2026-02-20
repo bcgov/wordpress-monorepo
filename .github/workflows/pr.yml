@@ -73,13 +73,13 @@ jobs:
 
     build-and-test:
         name: Build and Test ${{ matrix.project }}
-        needs: detect-changed-projects
-        if: ${{ needs.detect-changed-projects.outputs.projects != '' && needs.detect-changed-projects.outputs.projects != '[]' }}
+        needs: detect-affected-projects
+        if: ${{ needs.detect-affected-projects.outputs.projects != '' && needs.detect-affected-projects.outputs.projects != '[]' }}
         runs-on: ubuntu-latest
         strategy:
             fail-fast: false
             matrix:
-                project: ${{ fromJSON(needs.detect-changed-projects.outputs.projects) }}
+                project: ${{ fromJSON(needs.detect-affected-projects.outputs.projects) }}
         defaults:
             run:
                 working-directory: ${{ matrix.project }}
