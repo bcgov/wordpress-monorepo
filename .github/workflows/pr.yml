@@ -111,9 +111,6 @@ jobs:
             fail-fast: false
             matrix:
                 project: ${{ fromJSON(needs.detect-affected-projects.outputs.projects) }}
-        defaults:
-            run:
-                working-directory: ${{ matrix.project }}
         permissions:
             contents: write
         steps:
