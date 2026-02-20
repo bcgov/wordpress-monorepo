@@ -38,14 +38,14 @@ The example below assumes you are adding a theme and uses `example-theme` as a p
 ##### 1. Run nx import command
 
 ```bash
-nx import <git repo url> <destination path>
+npx nx import <git repo url> <destination path>
 ```
 
 Then follow the on-screen wizard to finish the import.
 
 Example:
 ```bash
-nx import https://github.com/bcgov/design-system-wordpress-theme themes/design-system-wordpress-theme
+npx nx import https://github.com/bcgov/design-system-wordpress-theme themes/design-system-wordpress-theme
 ```
 
 #### Manual steps
@@ -196,7 +196,7 @@ Theme- and plugin-level workflows will eventually be replaced by root-level work
 Todo: Determine how to automate release process using nx.
 
 ```bash
-nx release ...
+npx nx release ...
 ```
 
 ---
