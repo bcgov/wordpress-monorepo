@@ -88,7 +88,19 @@ jobs:
 
             - name: Get affected projects
               id: compute
-              run: npx nx show projects --affected --json
+              shell: bash
+              run: |
+                  # Determine correct base/head for PRs
+                  if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+                    git fetch origin "${{ github.base_ref }}:origin/${{ github.base_ref }}"
+                    BASE="origin/${{ github.base_ref }}"
+                    HEAD="${{ github.sha }}"
+                  else
+                    BASE="${{ github.event.before }}"
+                    HEAD="${{ github.sha }}"
+                  fi
+
+                  npx nx show projects --base=$BASE --head=$HEAD --affected --json
 
     build-and-test:
         name: Build and Test ${{ matrix.project }}
