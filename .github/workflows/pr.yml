@@ -77,13 +77,7 @@ jobs:
             - name: Get affected projects
               id: compute
               shell: bash
-              run: |
-                json="$(npx nx show projects --affected --json)"
-                {
-                  echo "projects<<EOF"
-                  echo "$json"
-                  echo "EOF"
-                } >> "$GITHUB_OUTPUT"
+              run: npx nx show projects --affected --json
 
     build-and-test:
         name: Build and Test ${{ matrix.project }}
