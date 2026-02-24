@@ -42,7 +42,10 @@
     "test:screenshot": "npx playwright test --config=tests/screenshot",
     "test:screenshot:update": "npx playwright test --config=tests/screenshot --update-snapshots",
     "test:integration": "wp-env run tests-cli --env-cwd=wp-content/plugins/wordpress-search composer run test",
-    "test:integration:coverage": "wp-env run tests-cli --env-cwd=wp-content/plugins/wordpress-search composer run coverage",
-    "wp-env": "wp-env"
+    "wp-env": "wp-env",
+    "wp-env:start": "wp-env start --xdebug=coverage"
+  },
+  "nx": {
+    "implicitDependencies": ["packages/phpunit-config/"]
   }
 }

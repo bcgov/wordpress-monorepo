@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<phpunit
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.6/phpunit.xsd"
+	bootstrap="integration-test-bootstrap.php"
+	backupGlobals="false"
+	colors="true"
+	convertErrorsToExceptions="true"
+	convertNoticesToExceptions="true"
+	convertWarningsToExceptions="true"
+    testdox="true"
+	>
+	<testsuites>
+		<testsuite name="integration">
+			<directory prefix="test-" suffix=".php">../../../tests</directory>
+		</testsuite>
+	</testsuites>
+    <coverage>
+        <include>
+            <directory>../../../src</directory>
+        </include>
+        <exclude>
+            <directory>../../../tests/</directory>
+            <directory>../../../vendor</directory>
+            <directory>../../../node_modules</directory>
+        </exclude>
+        <report>
+            <clover outputFile="../../../coverage/php/clover.xml" />
+            <html outputDirectory="../../../coverage/php" lowUpperBound="50" highLowerBound="90"/>
+        </report>
+    </coverage>
+</phpunit>

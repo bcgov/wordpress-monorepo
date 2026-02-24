@@ -1,0 +1,11 @@
+{
+    "name": "wordpress-monorepo/phpunit-config",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Michael Haswell",
+            "email": "Michael.Haswell@gov.bc.ca"
+        }
+    ],
+    "require": {}
+}

@@ -39,6 +39,7 @@
         "build": "npx nx run-many -t build",
         "start": "npx nx watch --all -- nx run \\$NX_PROJECT_NAME:start --no-watch",
         "test": "npx nx run-many -t test",
+        "composer:install": "npx nx run-many -t composer:install",
         "test:e2e": "npm run test:e2e",
         "test:integration": "npm run test:integration",
         "test:screenshot:update": "npm run test:screenshot:update",
@@ -58,6 +59,7 @@
         "lint:pkg-json": "wp-scripts lint-pkg-json",
         "format": "wp-scripts format",
         "check-engines": "wp-scripts check-engines",
-        "check-licenses": "wp-scripts check-licenses --prod"
+        "check-licenses": "wp-scripts check-licenses --prod",
+        "wp-env": "wp-env"
     }
 }
