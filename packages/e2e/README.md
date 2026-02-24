@@ -1,6 +1,6 @@
 # e2e
 
-This package demonstrates how internally sharing code between plugins/themes could work. Doing it this way means not having to use brittle relative paths (eg. `import { PageHelpers } from '../../shared/e2e';`).
+This package demonstrates how internally sharing npm code between plugins/themes could work. Doing it this way means not having to use brittle relative paths (eg. `import { PageHelpers } from '../../shared/e2e';`).
 
 ## Usage
 

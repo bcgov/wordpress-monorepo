@@ -44,7 +44,9 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "license": [ "MIT" ],
+            "license": [
+                "MIT"
+            ],
             "authors": [
                 {
                     "name": "Franck Nijhof",
@@ -131,7 +133,9 @@
             },
             "type": "phpcodesniffer-standard",
             "notification-url": "https://packagist.org/downloads/",
-            "license": [ "LGPL-3.0-or-later" ],
+            "license": [
+                "LGPL-3.0-or-later"
+            ],
             "authors": [
                 {
                     "name": "Wim Godden",
@@ -150,7 +154,11 @@
             ],
             "description": "A set of sniffs for PHP_CodeSniffer that checks for PHP cross-version compatibility.",
             "homepage": "http://techblog.wimgodden.be/tag/codesniffer/",
-            "keywords": [ "compatibility", "phpcs", "standards" ],
+            "keywords": [
+                "compatibility",
+                "phpcs",
+                "standards"
+            ],
             "support": {
                 "issues": "https://github.com/PHPCompatibility/PHPCompatibility/issues",
                 "source": "https://github.com/PHPCompatibility/PHPCompatibility"
@@ -185,7 +193,9 @@
             },
             "type": "phpcodesniffer-standard",
             "notification-url": "https://packagist.org/downloads/",
-            "license": [ "LGPL-3.0-or-later" ],
+            "license": [
+                "LGPL-3.0-or-later"
+            ],
             "authors": [
                 {
                     "name": "Wim Godden",
@@ -259,7 +269,9 @@
             },
             "type": "phpcodesniffer-standard",
             "notification-url": "https://packagist.org/downloads/",
-            "license": [ "LGPL-3.0-or-later" ],
+            "license": [
+                "LGPL-3.0-or-later"
+            ],
             "authors": [
                 {
                     "name": "Wim Godden",
@@ -338,7 +350,9 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "license": [ "LGPL-3.0-or-later" ],
+            "license": [
+                "LGPL-3.0-or-later"
+            ],
             "authors": [
                 {
                     "name": "Juliette Reinders Folmer",
@@ -418,10 +432,14 @@
                 }
             },
             "autoload": {
-                "classmap": [ "PHPCSUtils/" ]
+                "classmap": [
+                    "PHPCSUtils/"
+                ]
             },
             "notification-url": "https://packagist.org/downloads/",
-            "license": [ "LGPL-3.0-or-later" ],
+            "license": [
+                "LGPL-3.0-or-later"
+            ],
             "authors": [
                 {
                     "name": "Juliette Reinders Folmer",
@@ -496,10 +514,15 @@
             "require-dev": {
                 "phpunit/phpunit": "^4.0 || ^5.0 || ^6.0 || ^7.0 || ^8.0 || ^9.3.4"
             },
-            "bin": [ "bin/phpcbf", "bin/phpcs" ],
+            "bin": [
+                "bin/phpcbf",
+                "bin/phpcs"
+            ],
             "type": "library",
             "notification-url": "https://packagist.org/downloads/",
-            "license": [ "BSD-3-Clause" ],
+            "license": [
+                "BSD-3-Clause"
+            ],
             "authors": [
                 {
                     "name": "Greg Sherwood",
@@ -516,7 +539,11 @@
             ],
             "description": "PHP_CodeSniffer tokenizes PHP, JavaScript and CSS files and detects violations of a defined set of coding standards.",
             "homepage": "https://github.com/PHPCSStandards/PHP_CodeSniffer",
-            "keywords": [ "phpcs", "standards", "static analysis" ],
+            "keywords": [
+                "phpcs",
+                "standards",
+                "static analysis"
+            ],
             "support": {
                 "issues": "https://github.com/PHPCSStandards/PHP_CodeSniffer/issues",
                 "security": "https://github.com/PHPCSStandards/PHP_CodeSniffer/security/policy",
@@ -580,7 +607,9 @@
             },
             "type": "phpcodesniffer-standard",
             "notification-url": "https://packagist.org/downloads/",
-            "license": [ "MIT" ],
+            "license": [
+                "MIT"
+            ],
             "authors": [
                 {
                     "name": "Contributors",
@@ -615,5 +644,5 @@
     "prefer-lowest": false,
     "platform": {},
     "platform-dev": {},
-    "plugin-api-version": "2.6.0"
+    "plugin-api-version": "2.9.0"
 }

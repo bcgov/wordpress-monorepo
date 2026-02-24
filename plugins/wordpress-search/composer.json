@@ -6,14 +6,18 @@
     "version": "1.1.0",
     "repositories": [
         {
-            "type": "composer",
-            "url": "https://blog.gov.bc.ca/satis"
+            "type": "path",
+            "url": "../../packages/phpunit-config",
+            "options": {
+                "symlink": false
+            }
         }
     ],
     "require-dev": {
-        "bcgov/wordpress-utils": "2.7.0",
+        "wordpress-monorepo/phpunit-config": "dev-main",
         "yoast/phpunit-polyfills": "^1.0",
-        "composer/composer": "^2.9.3"
+        "composer/composer": "^2.9.3",
+        "phpunit/phpunit": "^9.6"
     },
     "autoload": {
         "psr-4": {
@@ -22,30 +26,8 @@
         }
     },
     "scripts": {
-        "test-setup":[ 
-            "bash vendor/bcgov/wordpress-utils/bin/install-wp-tests.sh wordpress_test root 'rootpassword' 0.0.0.0 latest"
-        ],
-        "production": [
-            "composer validate",
-            "composer phpcbf",
-            "composer phpcs",
-            "npm run fix:js",
-            "npm run fix:css"
-        ],
-        "phpcs": [
-            "Bcgov\\Script\\Standards::phpcs"
-        ],
-        "phpcbf": [
-            "Bcgov\\Script\\Standards::phpcbf"
-        ],
         "test": [
-            "vendor/bin/phpunit --testdox "
-        ],
-        "coverage": [
-            "vendor/bin/phpunit --coverage-html ./coverage/php/"
-        ],
-        "phpcs-allow-todo": [
-            "vendor/bin/phpcs -ps --standard=./vendor/bcgov/wordpress-utils/wordpress.xml  --exclude=Generic.Commenting.Todo --colors --ignore=**/build/** ./"
+            "vendor/bin/phpunit --configuration vendor/wordpress-monorepo/phpunit-config/phpunit.integration.xml"
         ]
     },
     "config": {

@@ -58,6 +58,7 @@
         "lint:pkg-json": "wp-scripts lint-pkg-json",
         "format": "wp-scripts format",
         "check-engines": "wp-scripts check-engines",
-        "check-licenses": "wp-scripts check-licenses --prod"
+        "check-licenses": "wp-scripts check-licenses --prod",
+        "wp-env": "wp-env"
     }
 }
