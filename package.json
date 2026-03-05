@@ -33,6 +33,7 @@
         "@wordpress/stylelint-config": "^23.32.0",
         "eslint-plugin-playwright": "^2.7.0",
         "eslint-plugin-prefer-arrow": "^1.2.3",
+        "js-beautify": "^1.15.4",
         "nx": "22.5.0"
     },
     "scripts": {
@@ -52,8 +53,7 @@
         "fix:css": "wp-scripts lint-style --fix",
         "lint:php": "composer run lint:php",
         "fix:php": "composer run fix:php",
-        "lint:html": "npx prettier --check **/*.{html,php}",
-        "fix:html": "npx prettier --write **/*.{html,php}",
+        "fix:html": "npx js-beautify --html {themes,plugins}/**/{parts,patterns,templates}/**/*",
         "lint:md": "wp-scripts lint-md-docs",
         "fix:md": "wp-scripts lint-md-docs --fix",
         "lint:pkg-json": "wp-scripts lint-pkg-json",
